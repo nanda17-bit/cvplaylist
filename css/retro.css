@@ -789,6 +789,10 @@ h1, h2, h3, h4, h5 {
   .cassette-reels { gap: 2rem; }
   .reel::before { width: 22px; height: 22px; }
   .player-controls { gap: 1rem; }
+  .edu-paper-wrap { perspective: none; }
+  .edu-list-side { max-width: 100%; }
+  .edu-list-side .edu-item { gap: 1.25rem; }
+  .edu-list-side .edu-card { padding: 1.25rem; }
 }
 
 /* Contact */
@@ -1298,32 +1302,56 @@ h1, h2, h3, h4, h5 {
 }
 
 @media (max-width: 575px) {
+  .edu-layout {
+    gap: 1.75rem;
+  }
+
+  .edu-paper-wrap {
+    margin: 0 auto;
+  }
+
   .edu-paper {
-    width: 260px;
-    max-width: 100%;
-    min-height: 280px;
+    width: 100%;
+    max-width: 300px;
+    min-height: 260px;
     padding: 2rem 1.5rem 1.5rem;
-    transform: rotate(-2deg);
+    transform: rotate(0deg) skewY(0deg);
   }
 
   .edu-lyric {
     font-size: 1rem;
+    margin: 0.8rem 0 1rem 0.8rem;
   }
 
   .edu-list-side .edu-item {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.4rem;
+    margin-bottom: 1.25rem;
   }
 
   .edu-list-side .edu-year {
     text-align: left;
     min-width: unset;
     padding-top: 0;
+    font-size: 0.72rem;
+    letter-spacing: 1px;
   }
 
   .edu-list-side .edu-year::after,
   .edu-list-side .edu-card::before {
     display: none;
+  }
+
+  .edu-list-side .edu-card {
+    padding: 1.05rem 1.15rem;
+  }
+
+  .edu-list-side .edu-card h5 {
+    font-size: 1rem;
+  }
+
+  .edu-list-side .edu-desc {
+    font-size: 0.8rem;
   }
 }
 
