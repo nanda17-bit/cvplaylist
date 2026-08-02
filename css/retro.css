@@ -504,16 +504,32 @@ h1, h2, h3, h4, h5 {
   box-shadow: 0 10px 40px rgba(212, 165, 106, 0.15);
 }
 
-/* YouTube iframe tersembunyi — audio player */
-.yt-holder {
-  position: fixed;
-  left: -9999px;
-  top: 0;
-  width: 480px;
-  height: 270px;
-  opacity: 0;
+/* Layar mini video YouTube di dalam kaset */
+.cassette-screen {
+  width: 220px;
+  max-width: 100%;
+  margin: 0 auto 1.5rem;
+  padding: 8px;
+  background: #141414;
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  box-shadow: inset 0 0 14px rgba(0, 0, 0, 0.7);
+}
+
+.cassette-screen .screen-inner {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: #0a0a0a;
+  overflow: hidden;
+}
+
+.cassette-screen .screen-inner iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
   pointer-events: none;
-  z-index: -1;
 }
 
 .pl-note {
@@ -1368,6 +1384,7 @@ h1, h2, h3, h4, h5 {
   .section-title { font-size: 1.6rem; }
   .volume-slider { width: 90px; }
   .cassette-player { padding: 1.2rem; }
+  .cassette-screen { width: 160px; padding: 5px; margin-bottom: 1.25rem; }
   .contact-link { font-size: 0.85rem; padding: 0.85rem 1rem; }
   .contact-link .icon { width: 36px; height: 36px; }
   .terminal-modal { width: 94%; }
