@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portfolio — Retro</title>
   <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/retro.css?v=4">
+  <link rel="stylesheet" href="css/retro.css?v=6">
 </head>
 <body>
 
@@ -90,6 +90,11 @@
           <div class="sp-tracklist" id="spTracklist">
             <div class="sp-loading">Memuat playlist…</div>
           </div>
+          <div class="sp-progress">
+            <span class="sp-time" id="timeCurrent">0:00</span>
+            <input type="range" class="sp-seekbar" id="seekBar" min="0" max="1000" step="1" value="0">
+            <span class="sp-time" id="timeTotal">0:00</span>
+          </div>
           <div class="sp-playerbar">
             <div class="sp-art-holder">
               <div id="ytplayer"></div>
@@ -103,6 +108,7 @@
               <button class="ctrl-btn" id="prevBtn" title="sebelumnya">⏮</button>
               <button class="ctrl-btn play-btn" id="playBtn" title="putar/jeda">▶</button>
               <button class="ctrl-btn" id="nextBtn" title="selanjutnya">⏭</button>
+              <button class="ctrl-btn active" id="loopBtn" title="ulangi playlist">🔁</button>
             </div>
             <div class="sp-volume">
               <label>vol</label>
@@ -377,7 +383,20 @@ const overlay = document.getElementById('entry-overlay');
 const playBtn = document.getElementById('playBtn');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
+const loopBtn = document.getElementById('loopBtn');
 const volumeSlider = document.getElementById('volumeSlider');
+const seekBar = document.getElementById('seekBar');
+const timeCurrent = document.getElementById('timeCurrent');
+const timeTotal = document.getElementById('timeTotal');
+let loopMode = 1;
+let isSeeking = false;
+
+function fmtTime(s) {
+  s = Math.floor(s || 0);
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return m + ':' + String(sec).padStart(2, '0');
+}
 
 function escapeHtml(s) {
   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -491,9 +510,14 @@ function onYouTubeIframeAPIReady() {
         isPlaying = (e.data === YT.PlayerState.PLAYING);
         playBtn.textContent = isPlaying ? '⏸' : '▶';
         if (e.data === YT.PlayerState.ENDED) {
-          if (currentIndex < tracks.length - 1) {
+          if (loopMode === 2) {
+            playTrack(currentIndex);
+          } else if (currentIndex < tracks.length - 1) {
             currentIndex++;
             playTrack(currentIndex);
+          } else if (loopMode === 1) {
+            currentIndex = 0;
+            playTrack(0);
           } else {
             isPlaying = false;
             updateUI();
@@ -527,6 +551,33 @@ prevBtn.addEventListener('click', () => {
 volumeSlider.addEventListener('input', () => {
   if (ytPlayer) ytPlayer.setVolume(+volumeSlider.value);
 });
+loopBtn.addEventListener('click', () => {
+  loopMode = (loopMode + 1) % 3;
+  loopBtn.textContent = loopMode === 2 ? '🔂' : '🔁';
+  loopBtn.classList.toggle('active', loopMode !== 0);
+  loopBtn.title = loopMode === 2 ? 'ulangi satu lagu' : (loopMode === 1 ? 'ulangi playlist' : 'tanpa loop');
+});
+seekBar.addEventListener('input', () => {
+  if (!ytPlayer) return;
+  const d = ytPlayer.getDuration();
+  if (d && isFinite(d)) ytPlayer.seekTo((seekBar.value / 1000) * d, true);
+});
+seekBar.addEventListener('pointerdown', () => { isSeeking = true; });
+seekBar.addEventListener('pointerup', () => { isSeeking = false; });
+seekBar.addEventListener('touchstart', () => { isSeeking = true; }, { passive: true });
+seekBar.addEventListener('touchend', () => { isSeeking = false; }, { passive: true });
+seekBar.addEventListener('change', () => { isSeeking = false; });
+
+setInterval(() => {
+  if (!ytPlayer || isSeeking) return;
+  const d = ytPlayer.getDuration();
+  const c = ytPlayer.getCurrentTime();
+  if (d && isFinite(d) && isFinite(c)) {
+    seekBar.value = Math.min(1000, (c / d) * 1000);
+    timeCurrent.textContent = fmtTime(c);
+    timeTotal.textContent = fmtTime(d);
+  }
+}, 500);
 document.getElementById('spPlayAll').addEventListener('click', () => {
   if (!tracks.length) return;
   playTrack(0);
