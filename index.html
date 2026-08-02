@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio — Retro</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/retro.css?v=4">
+</head>
+<body>
+
+<div id="entry-overlay">
+  <div class="entry-content">
+    <div class="vinyl-ring"></div>
+    <span class="entry-icon">🎵</span>
+    <div class="entry-title">Listening Room</div>
+    <div class="entry-sub">klik di mana saja untuk masuk</div>
+    <div class="entry-play">▶</div>
+  </div>
+</div>
+
+<nav class="navbar navbar-expand-lg fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">Portfolio.</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="#about">Tentang</a></li>
+        <li class="nav-item"><a class="nav-link" href="#skills">Keahlian</a></li>
+        <li class="nav-item"><a class="nav-link" href="#portfolio">Karya</a></li>
+        <li class="nav-item"><a class="nav-link" href="#music">Musik</a></li>
+        <li class="nav-item"><a class="nav-link" href="#education">Pendidikan</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Kontak</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<section class="hero" id="home">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 order-lg-1 order-2">
+        <div class="fade-in">
+          <p class="hero-subtitle">✦ Backend developer</p>
+          <h1 class="hero-name">Halo, saya<br><span>Iqbal Isnanda Nurhuda</span></h1>
+          <p class="hero-title">Membangun pengalaman digital yang estetik & fungsional</p>
+          <p class="hero-desc">
+            Saya seorang pengembang web yang gemar menciptakan antarmuka yang indah, 
+            responsif, dan penuh karakter. Dengan sentuhan retro modern, saya hadirkan 
+            karya yang beda dari yang lain.
+          </p>
+          <div class="d-flex gap-3 flex-wrap">
+            <a href="#portfolio" class="btn-retro">Lihat Karya</a>
+            <a href="#contact" class="btn-retro btn-retro-outline">Hubungi Saya</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 offset-lg-1 order-lg-2 order-1 text-center">
+        <div class="fade-in">
+          <img src="image/logotrial.png" alt="profile" class="hero-photo" id="profileImg">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section music-section" id="music">
+  <div class="container">
+    <div class="text-center fade-in">
+      <p class="section-tag">✦ temani saya</p>
+      <h2 class="section-title">Lagu <span class="italic">Pilihan</span></h2>
+      <p class="section-desc">Playlist lengkap yang menemani saya saat berkarya.</p>
+    </div>
+    <div class="row justify-content-center mt-4">
+      <div class="col-lg-10 fade-in">
+        <div class="spotify-player" id="spotifyPlayer">
+          <div class="sp-header">
+            <div class="sp-header-art">
+              <div class="sp-logo">▶</div>
+            </div>
+            <div class="sp-header-meta">
+              <p class="sp-header-label">PLAYLIST</p>
+              <h4 id="spPlaylistName">Playlist Saya</h4>
+              <p class="sp-header-sub" id="spPlaylistSub">memuat…</p>
+              <button class="sp-playall" id="spPlayAll">▶ Putar semua</button>
+            </div>
+          </div>
+          <div class="sp-tracklist" id="spTracklist">
+            <div class="sp-loading">Memuat playlist…</div>
+          </div>
+          <div class="sp-playerbar">
+            <div class="sp-art-holder">
+              <div id="ytplayer"></div>
+              <img id="spArt" alt="art" class="sp-art-img">
+            </div>
+            <div class="sp-now">
+              <div class="sp-now-title" id="spNowTitle">Pilih lagu</div>
+              <div class="sp-now-artist" id="spNowArtist">—</div>
+            </div>
+            <div class="sp-controls">
+              <button class="ctrl-btn" id="prevBtn" title="sebelumnya">⏮</button>
+              <button class="ctrl-btn play-btn" id="playBtn" title="putar/jeda">▶</button>
+              <button class="ctrl-btn" id="nextBtn" title="selanjutnya">⏭</button>
+            </div>
+            <div class="sp-volume">
+              <label>vol</label>
+              <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" step="1" value="70">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-about" id="about">
+  <div class="container">
+    <div class="text-center fade-in">
+      <p class="section-tag">✦ tentang saya</p>
+      <h2 class="section-title">Siapa <span class="italic">Saya?</span></h2>
+      <p class="section-desc">
+          Seorang kreatif digital dengan kecintaan pada Logika, Cara Pemikiran,
+          dan kode yang bersih.
+      </p>
+    </div>
+    <div class="row mt-5">
+      <div class="col-lg-6 fade-in">
+        <p class="about-text">
+          Berawal dari ketertarikan pada website-website era 90-an yang penuh warna 
+          dan kepribadian, saya mulai merancang situs modern dengan jiwa nostalgia. 
+          Setiap baris kode saya tulis dengan hati-hati — menyeimbangkan estetika 
+          vintage dengan performa masa kini.
+        </p>
+        <p class="about-text">
+          Di luar coding, saya menikmati kopi hitam, mendengarkan piringan hitam, 
+          dan mengoleksi font-font lawas. Prinsip saya: <em>less noise, more soul</em>.
+        </p>
+      </div>
+      <div class="col-lg-5 offset-lg-1 fade-in">
+        <div class="mb-3">
+          <p class="about-label">nama</p>
+          <p class="about-value">Iqbal Isnanda Nurhuda</p>
+        </div>
+        <div class="mb-3">
+          <p class="about-label">domisili</p>
+          <p class="about-value">Indonesia</p>
+        </div>
+        <div class="mb-3">
+          <p class="about-label">spesialisasi</p>
+          <p class="about-value">Backend Developer - PHP User</p>
+        </div>
+        <div class="mb-3">
+          <p class="about-label">pengalaman</p>
+          <p class="about-value">10, bulan</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-education" id="education">
+  <div class="container">
+    <div class="text-center fade-in">
+      <p class="section-tag">✦ pendidikan</p>
+      <h2 class="section-title">Pendidikan <span class="italic">Terakhir</span></h2>
+      <p class="section-desc">Riwayat pendidikan yang telah saya tempuh.</p>
+    </div>
+    <div class="edu-layout fade-in">
+      <div class="edu-paper-wrap">
+        <div class="edu-paper">
+          <div class="edu-paper-lines"></div>
+          <p class="edu-lyric">"Lakukan apa yang kau mau sekarang, saat hatimu bergerak jangan kau larang"</p>
+          <span class="edu-lyric-artist">— Hindia</span>
+        </div>
+      </div>
+      <div class="edu-list-side">
+        <div class="edu-timeline">
+          <div class="edu-item">
+            <div class="edu-year">2024 — now</div>
+            <div class="edu-card">
+              <h5>SMK Negeri 2 Karanganyar</h5>
+              <p class="edu-major">Kelas 2 — Pengembangan Perangkat Lunak Dan Gim</p>
+              <p class="edu-desc">Sedang menempuh pendidikan kejuruan, aktif belajar jaringan dan pemrograman.</p>
+            </div>
+          </div>
+          <div class="edu-item">
+            <div class="edu-year">2021 — 2024</div>
+            <div class="edu-card">
+              <h5>SMP Islam AlHadi Mojolaban</h5>
+              <p class="edu-desc">Menyelesaikan pendidikan menengah pertama dengan baik.</p>
+            </div>
+          </div>
+          <div class="edu-item">
+            <div class="edu-year">2015 — 2021</div>
+            <div class="edu-card">
+              <h5>SD Negeri 02 Papahan</h5>
+              <p class="edu-desc">Mengawali perjalanan pendidikan di sekolah dasar.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-skills" id="skills">
+  <div class="container">
+    <div class="text-center fade-in">
+      <p class="section-tag">✦ keahlian</p>
+      <h2 class="section-title">Yang Saya <span class="italic">Kuasai</span></h2>
+      <p class="section-desc">Beberapa teknologi dan tools yang saya gunakan sehari-hari.</p>
+    </div>
+    <div class="row mt-4">
+      <div class="col-lg-6 fade-in">
+        <div class="skill-item">
+          <div class="skill-header"><span>HTML & CSS</span><span>50%</span></div>
+          <div class="progress"><div class="progress-bar" style="width:50%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span>JavaScript</span><span>20%</span></div>
+          <div class="progress"><div class="progress-bar teal" style="width:20%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span>React / Vue</span><span>10%</span></div>
+          <div class="progress"><div class="progress-bar gold" style="width:10%"></div></div>
+        </div>
+      </div>
+      <div class="col-lg-6 fade-in">
+        <div class="skill-item">
+          <div class="skill-header"><span>Laravel</span><span>40%</span></div>
+          <div class="progress"><div class="progress-bar teal" style="width:40%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span>Bootstrap / Tailwind</span><span>35%</span></div>
+          <div class="progress"><div class="progress-bar gold" style="width:35%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span>CodeIgniter 3</span><span>40%</span></div>
+          <div class="progress"><div class="progress-bar" style="width:40%"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-portfolio" id="portfolio">
+  <div class="container">
+    <div class="text-center fade-in">
+      <p class="section-tag">✦ portofolio</p>
+      <h2 class="section-title">Karya <span class="italic">Terpilih</span></h2>
+      <p class="section-desc">Beberapa proyek yang pernah saya kerjakan dengan sepenuh hati.</p>
+    </div>
+    <div class="row g-4 mt-3">
+      <div class="col-md-6 col-lg-4 fade-in">
+        <div class="portfolio-card">
+          <img src="image/project/kasir.png" alt="project 1">
+          <div class="portfolio-body">
+            <span class="portfolio-tag">web app</span>
+            <span class="portfolio-tag">PHP NATIVE</span>
+            <h5>Kasir Penjualan</h5>
+            <p>Platform visualisasi data Kasir.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 fade-in">
+        <div class="portfolio-card">
+          <img src="image/project/si-sekolah.png" alt="project 2">
+          <div class="portfolio-body">
+            <span class="portfolio-tag">web app</span>
+            <span class="portfolio-tag">CI3 + Html CSS JS</span>
+            <h5>SMP ISLAM ALHADI</h5>
+            <p>Sistem Informasi Sekolah Simple</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 fade-in">
+        <div class="portfolio-card">
+          <img src="image/project/sewapremium.png" alt="project 3">
+          <div class="portfolio-body">
+            <span class="portfolio-tag">web app</span>
+            <span class="portfolio-tag">Laravel + React</span>
+            <h5>Sewa Premium</h5>
+            <p>Aplikasi Penyewaan Akun Media / Game.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-contact" id="contact">
+  <div class="container">
+    <div class="text-center fade-in">
+      <p class="section-tag">✦ kontak</p>
+      <h2 class="section-title">Mari <span class="italic">Berkolaborasi</span></h2>
+      <p class="section-desc">Punya proyek menarik? Jangan ragu untuk menghubungi saya.</p>
+    </div>
+    <div class="row justify-content-center mt-4 g-3">
+      <div class="col-md-6 col-lg-4 fade-in">
+        <a href="mailto:thebalx16@gmail.com" class="contact-link">
+          <span class="icon">✉</span>
+          <span>thebalx16@gmail.com</span>
+        </a>
+      </div>
+      <div class="col-md-6 col-lg-4 fade-in">
+        <a href="https://instagram.com/superheroiqn" target="_blank" class="contact-link">
+          <span class="icon">📷</span>
+          <span>@superheroiqn</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
+        &copy; 2026 — dibuat dengan ❤ dan kopi hitam
+      </div>
+      <div class="col-md-6 text-center text-md-end social">
+        <a href="https://instagram.com/superheroiqn" target="_blank">📷</a>
+        <a href="https://twitter.com/" target="_blank">🐦</a>
+        <a href="https://open.spotify.com/" target="_blank">🎵</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Terminal Floating -->
+<button class="terminal-fab" id="terminalFab" title="Terminal">>_</button>
+
+<div class="terminal-overlay" id="terminalOverlay">
+  <div class="terminal-modal">
+    <div class="terminal">
+      <div class="terminal-header">
+        <div class="terminal-dots">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+        </div>
+        <span class="terminal-title">iqbal@portfolio:~</span>
+        <button class="terminal-close" id="terminalClose">✕</button>
+      </div>
+      <div class="terminal-body" id="terminalBody">
+        <div class="terminal-output" id="terminalOutput">
+          <div class="t-line t-system">Selamat datang di terminal portfolio IQBAL.</div>
+          <div class="t-line t-system">Ketik <span class="t-cmd">help</span> untuk melihat daftar command.</div>
+          <div class="t-line">&nbsp;</div>
+        </div>
+        <form class="terminal-input-line" id="terminalForm">
+          <span class="terminal-prompt">iqbal@portfolio:~$</span>
+          <input type="text" class="terminal-input" id="terminalInput" autocomplete="off" spellcheck="false">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/bootstrap.min.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+// === SPOTIFY-STYLE YOUTUBE PLAYLIST PLAYER ===
+const YOUTUBE_API_KEY = 'AIzaSyA_5nZ65yzJEJuVsH1MBMncxsskAhQ459E';
+const PLAYLIST_ID = 'PLSyqwBpeghEE';
+
+let tracks = [];
+let currentIndex = 0;
+let ytPlayer = null;
+let isPlayerReady = false;
+let isPlaying = false;
+let loadedVideo = false;
+
+const overlay = document.getElementById('entry-overlay');
+const playBtn = document.getElementById('playBtn');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const volumeSlider = document.getElementById('volumeSlider');
+
+function escapeHtml(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function parseDuration(iso) {
+  const m = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+  const h = m[1] ? +m[1] : 0;
+  const mm = m[2] ? +m[2] : 0;
+  const s = m[3] ? +m[3] : 0;
+  const hh = h ? h + ':' : '';
+  return hh + String(mm).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+}
+
+async function fetchPlaylist() {
+  const listEl = document.getElementById('spTracklist');
+  try {
+    let items = [];
+    let nextPage = '';
+    do {
+      const url = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&maxResults=50&playlistId=' + PLAYLIST_ID + '&key=' + YOUTUBE_API_KEY + (nextPage ? '&pageToken=' + nextPage : '');
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('API error ' + res.status);
+      const data = await res.json();
+      items = items.concat(data.items || []);
+      nextPage = data.nextPageToken || '';
+    } while (nextPage);
+
+    tracks = items
+      .filter(it => it.snippet && it.snippet.title && it.snippet.title !== 'Private video' && it.snippet.title !== 'Deleted video')
+      .map(it => ({
+        id: it.contentDetails.videoId,
+        title: it.snippet.title,
+        artist: it.snippet.videoOwnerChannelTitle || it.snippet.channelTitle || 'YouTube',
+        thumb: it.snippet.thumbnails && it.snippet.thumbnails.high ? it.snippet.thumbnails.high.url : '',
+        duration: ''
+      }));
+
+    document.getElementById('spPlaylistSub').textContent = tracks.length + ' lagu';
+    renderPlaylist();
+    await fetchDurations();
+  } catch (err) {
+    listEl.innerHTML = '<div class="sp-loading">Gagal memuat playlist. Pastikan API key benar.</div>';
+  }
+}
+
+async function fetchDurations() {
+  for (let i = 0; i < tracks.length; i += 50) {
+    const ids = tracks.slice(i, i + 50).map(t => t.id).join(',');
+    const url = 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=' + ids + '&key=' + YOUTUBE_API_KEY;
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+      (data.items || []).forEach(v => {
+        const t = tracks.find(x => x.id === v.id);
+        if (t && v.contentDetails) t.duration = parseDuration(v.contentDetails.duration);
+      });
+    } catch (e) {}
+  }
+  renderPlaylist();
+}
+
+function renderPlaylist() {
+  const el = document.getElementById('spTracklist');
+  el.innerHTML = '';
+  tracks.forEach((t, i) => {
+    const row = document.createElement('div');
+    row.className = 'sp-track' + (i === currentIndex ? ' active' : '');
+    row.innerHTML =
+      '<span class="sp-num">' + (i === currentIndex && isPlaying ? '▶' : String(i + 1).padStart(2, '0')) + '</span>' +
+      '<span class="sp-t-title">' + escapeHtml(t.title) + '</span>' +
+      '<span class="sp-t-artist">' + escapeHtml(t.artist) + '</span>' +
+      '<span class="sp-dur">' + t.duration + '</span>';
+    row.addEventListener('click', () => playTrack(i));
+    el.appendChild(row);
+  });
+}
+
+function updateUI() {
+  playBtn.textContent = isPlaying ? '⏸' : '▶';
+  renderPlaylist();
+}
+
+function updateNowPlaying(i) {
+  const t = tracks[i];
+  if (!t) return;
+  document.getElementById('spNowTitle').textContent = t.title;
+  document.getElementById('spNowArtist').textContent = t.artist;
+  const art = document.getElementById('spArt');
+  if (t.thumb) art.src = t.thumb;
+}
+
+function playTrack(i) {
+  if (!isPlayerReady || !tracks[i]) return;
+  currentIndex = i;
+  loadedVideo = true;
+  ytPlayer.loadVideoById(tracks[i].id);
+  isPlaying = true;
+  updateNowPlaying(i);
+  updateUI();
+}
+
+function onYouTubeIframeAPIReady() {
+  ytPlayer = new YT.Player('ytplayer', {
+    height: '100%',
+    width: '100%',
+    playerVars: { playsinline: 1, autoplay: 0, controls: 0 },
+    events: {
+      onReady: () => { isPlayerReady = true; },
+      onStateChange: (e) => {
+        isPlaying = (e.data === YT.PlayerState.PLAYING);
+        playBtn.textContent = isPlaying ? '⏸' : '▶';
+        if (e.data === YT.PlayerState.ENDED) {
+          if (currentIndex < tracks.length - 1) {
+            currentIndex++;
+            playTrack(currentIndex);
+          } else {
+            isPlaying = false;
+            updateUI();
+          }
+        }
+        if (e.data === YT.PlayerState.PLAYING) renderPlaylist();
+      }
+    }
+  });
+}
+
+playBtn.addEventListener('click', () => {
+  if (!tracks.length) return;
+  if (loadedVideo) {
+    if (isPlaying) ytPlayer.pauseVideo();
+    else ytPlayer.playVideo();
+  } else {
+    playTrack(currentIndex);
+  }
+});
+nextBtn.addEventListener('click', () => {
+  if (!tracks.length) return;
+  currentIndex = (currentIndex + 1) % tracks.length;
+  playTrack(currentIndex);
+});
+prevBtn.addEventListener('click', () => {
+  if (!tracks.length) return;
+  currentIndex = (currentIndex - 1 + tracks.length) % tracks.length;
+  playTrack(currentIndex);
+});
+volumeSlider.addEventListener('input', () => {
+  if (ytPlayer) ytPlayer.setVolume(+volumeSlider.value);
+});
+document.getElementById('spPlayAll').addEventListener('click', () => {
+  if (!tracks.length) return;
+  playTrack(0);
+});
+
+fetchPlaylist();
+
+// overlay click — masuk + mulai putar
+overlay.addEventListener('click', () => {
+  overlay.classList.add('hidden');
+  if (tracks.length) playTrack(currentIndex);
+  setTimeout(() => overlay.remove(), 900);
+});
+
+// scroll fade
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// === TERMINAL ===
+const tOutput = document.getElementById('terminalOutput');
+const tInput  = document.getElementById('terminalInput');
+const tForm   = document.getElementById('terminalForm');
+const tBody   = document.getElementById('terminalBody');
+const tFab    = document.getElementById('terminalFab');
+const tOverlay = document.getElementById('terminalOverlay');
+const tClose  = document.getElementById('terminalClose');
+let cmdHistory = [];
+let historyIdx = -1;
+
+function tScroll() {
+  tBody.scrollTop = tBody.scrollHeight;
+}
+
+function tPrint(html, cls) {
+  const d = document.createElement('div');
+  d.className = 't-line' + (cls ? ' ' + cls : '');
+  d.innerHTML = html;
+  tOutput.appendChild(d);
+  tScroll();
+}
+
+function tPrintBlank() {
+  tPrint('&nbsp;');
+}
+
+function openTerminal() {
+  tOverlay.classList.add('open');
+  setTimeout(() => tInput.focus(), 150);
+}
+
+function closeTerminal() {
+  tOverlay.classList.remove('open');
+}
+
+tFab.addEventListener('click', openTerminal);
+tClose.addEventListener('click', closeTerminal);
+tOverlay.addEventListener('click', (e) => {
+  if (e.target === tOverlay) closeTerminal();
+});
+tBody.addEventListener('click', () => tInput.focus());
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeTerminal();
+});
+
+const commands = {
+  help() {
+    tPrint('<span class="t-label">Command yang tersedia:</span>');
+    tPrintBlank();
+    tPrint('  <span class="t-cmd">getinfo</span>    — Menampilkan informasi tentang saya');
+    tPrint('  <span class="t-cmd">skills</span>     — Lihat skill saya');
+    tPrint('  <span class="t-cmd">projects</span>   — Lihat project yang pernah dikerjakan');
+    tPrint('  <span class="t-cmd">contact</span>    — Tampilkan info kontak');
+    tPrint('  <span class="t-cmd">clear</span>      — Bersihkan terminal');
+    tPrintBlank();
+  },
+
+  getinfo() {
+    tPrint('<span class="t-label">Name</span>        : <span class="t-val">Iqbal Isnanda Nurhuda</span>');
+    tPrint('<span class="t-label">Role</span>        : <span class="t-val">Backend Developer</span>');
+    tPrint('<span class="t-label">Location</span>    : <span class="t-val">Indonesia</span>');
+    tPrint('<span class="t-label">Education</span>   : <span class="t-val">SMK Negeri 2 Karanganyar — PPLG</span>');
+    tPrint('<span class="t-label">Experience</span>  : <span class="t-val">10 bulan</span>');
+    tPrint('<span class="t-label">Focus</span>       : <span class="t-val">PHP, Laravel, CodeIgniter</span>');
+    tPrint('<span class="t-label">Motto</span>       : <span class="t-val">less noise, more soul</span>');
+    tPrintBlank();
+  },
+
+  skills() {
+    tPrint('<span class="t-label">Keahlian:</span>');
+    tPrintBlank();
+    tPrint('  HTML & CSS ............ <span class="t-val">50%</span>');
+    tPrint('  Laravel ................ <span class="t-val">40%</span>');
+    tPrint('  CodeIgniter 3 .......... <span class="t-val">40%</span>');
+    tPrint('  Bootstrap / Tailwind ... <span class="t-val">35%</span>');
+    tPrint('  JavaScript ............. <span class="t-val">20%</span>');
+    tPrint('  React / Vue ............ <span class="t-val">10%</span>');
+    tPrintBlank();
+  },
+
+  projects() {
+    tPrint('<span class="t-label">Projects:</span>');
+    tPrintBlank();
+    tPrint('  <span class="t-cmd">1.</span> Kasir Penjualan — <span class="t-val">PHP Native</span>');
+    tPrint('  <span class="t-cmd">2.</span> SMP Islam AlHadi — <span class="t-val">CI3 + HTML/CSS/JS</span>');
+    tPrint('  <span class="t-cmd">3.</span> Sewa Premium — <span class="t-val">Laravel + React</span>');
+    tPrintBlank();
+  },
+
+  contact() {
+    tPrint('<span class="t-label">Email</span>     : <span class="t-val">femesgaesdesta@gmail.com</span>');
+    tPrint('<span class="t-label">Instagram</span> : <span class="t-val">@superheroiqn</span>');
+    tPrintBlank();
+  },
+
+  clear() {
+    tOutput.innerHTML = '';
+  }
+};
+
+function runCommand(raw) {
+  const cmd = raw.trim().toLowerCase();
+  if (!cmd) return;
+
+  tPrint(`<span class="terminal-prompt" style="display:inline">iqbal@portfolio:~$</span> ${raw}`);
+
+  if (commands[cmd]) {
+    commands[cmd]();
+  } else {
+    tPrint(`-bash: ${cmd}: command not found. Ketik <span class="t-cmd">help</span> untuk daftar command.`, 't-error');
+    tPrintBlank();
+  }
+}
+
+tForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const val = tInput.value;
+  cmdHistory.push(val);
+  historyIdx = cmdHistory.length;
+  runCommand(val);
+  tInput.value = '';
+});
+
+tInput.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    if (historyIdx > 0) {
+      historyIdx--;
+      tInput.value = cmdHistory[historyIdx];
+    }
+  } else if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    if (historyIdx < cmdHistory.length - 1) {
+      historyIdx++;
+      tInput.value = cmdHistory[historyIdx];
+    } else {
+      historyIdx = cmdHistory.length;
+      tInput.value = '';
+    }
+  }
+});
+</script>
+</body>
+</html>
