@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portfolio — Retro</title>
   <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/retro.css?v=11">
+  <link rel="stylesheet" href="css/retro.css?v=12">
 </head>
 <body>
 
@@ -426,6 +426,7 @@ async function fetchPlaylist() {
         id: it.contentDetails.videoId,
         title: it.snippet.title,
         artist: it.snippet.videoOwnerChannelTitle || it.snippet.channelTitle || 'YouTube',
+        thumb: it.snippet.thumbnails && it.snippet.thumbnails.high ? it.snippet.thumbnails.high.url : '',
         duration: ''
       }));
 
@@ -477,6 +478,7 @@ function updateUI() {
   reelL.classList.toggle('spinning', isPlaying);
   reelR.classList.toggle('spinning', isPlaying);
   renderPlaylist();
+  updateMediaSession();
 }
 
 function playTrack(i) {
@@ -488,6 +490,48 @@ function playTrack(i) {
   songTitle.textContent = tracks[i].title;
   songArtist.textContent = tracks[i].artist;
   updateUI();
+}
+
+function updateMediaSession() {
+  if (!('mediaSession' in navigator)) return;
+  const t = tracks[currentIndex];
+  if (!t) return;
+  try {
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: t.title,
+      artist: t.artist,
+      album: 'Lagu Pilihan',
+      artwork: t.thumb ? [{ src: t.thumb, sizes: '480x360', type: 'image/jpeg' }] : []
+    });
+    navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
+  } catch (e) {}
+}
+
+function setupMediaSession() {
+  if (!('mediaSession' in navigator)) return;
+  navigator.mediaSession.setActionHandler('play', () => { if (ytPlayer) ytPlayer.playVideo(); });
+  navigator.mediaSession.setActionHandler('pause', () => { if (ytPlayer) ytPlayer.pauseVideo(); });
+  navigator.mediaSession.setActionHandler('previoustrack', () => {
+    if (!tracks.length) return;
+    currentIndex = (currentIndex - 1 + tracks.length) % tracks.length;
+    playTrack(currentIndex);
+  });
+  navigator.mediaSession.setActionHandler('nexttrack', () => {
+    if (!tracks.length) return;
+    currentIndex = (currentIndex + 1) % tracks.length;
+    playTrack(currentIndex);
+  });
+  navigator.mediaSession.setActionHandler('seekto', (details) => {
+    if (ytPlayer && details.seekTime != null) ytPlayer.seekTo(details.seekTime, true);
+  });
+  try {
+    navigator.mediaSession.setActionHandler('seekbackward', () => {
+      if (ytPlayer) ytPlayer.seekTo(Math.max(0, ytPlayer.getCurrentTime() - 10), true);
+    });
+    navigator.mediaSession.setActionHandler('seekforward', () => {
+      if (ytPlayer) ytPlayer.seekTo(ytPlayer.getCurrentTime() + 10, true);
+    });
+  } catch (e) {}
 }
 
 function onYouTubeIframeAPIReady() {
@@ -575,6 +619,7 @@ setInterval(() => {
   }
 }, 500);
 
+setupMediaSession();
 fetchPlaylist();
 
 // overlay click — masuk + mulai putar

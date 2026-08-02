@@ -1327,6 +1327,7 @@ h1, h2, h3, h4, h5 {
     flex-direction: column;
     gap: 0.4rem;
     margin-bottom: 1.25rem;
+    align-items: stretch;
   }
 
   .edu-list-side .edu-year {
@@ -1343,6 +1344,7 @@ h1, h2, h3, h4, h5 {
   }
 
   .edu-list-side .edu-card {
+    width: 100%;
     padding: 1.05rem 1.15rem;
   }
 
