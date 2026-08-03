@@ -6,6 +6,77 @@
   <title>Portfolio — Retro</title>
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/retro.css?v=14">
+  <style>
+    /* === Mood Toggle (Santai / High) === */
+    .mood-toggle {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .mood-btn {
+      font-family: inherit;
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 8px 20px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      opacity: 0.6;
+    }
+    .mood-btn:hover {
+      opacity: 1;
+    }
+    .mood-btn.active {
+      opacity: 1;
+      background: rgba(255, 255, 255, 0.12);
+      border-color: currentColor;
+      box-shadow: 0 0 14px rgba(255, 255, 255, 0.15);
+    }
+
+    /* Santai theme (cool / calm) */
+    .cassette-player.mode-santai {
+      --mood-accent: #7ec8ff;
+      transition: box-shadow 0.4s ease;
+    }
+    .cassette-player.mode-santai .reel {
+      background: radial-gradient(circle, var(--mood-accent) 0%, #2a3f55 70%);
+    }
+    .cassette-player.mode-santai .player-progress-fill {
+      background: var(--mood-accent);
+    }
+    .cassette-player.mode-santai .play-btn {
+      box-shadow: 0 0 18px rgba(126, 200, 255, 0.5);
+      border-color: var(--mood-accent);
+    }
+    .cassette-player.mode-santai .playlist-item.active {
+      color: var(--mood-accent);
+    }
+
+    /* High theme (energetic / warm) */
+    .cassette-player.mode-high {
+      --mood-accent: #ff5a4d;
+      transition: box-shadow 0.4s ease;
+    }
+    .cassette-player.mode-high .reel {
+      background: radial-gradient(circle, var(--mood-accent) 0%, #4a1f18 70%);
+      animation-duration: 1.4s !important; /* muter lebih cepat pas High */
+    }
+    .cassette-player.mode-high .player-progress-fill {
+      background: var(--mood-accent);
+    }
+    .cassette-player.mode-high .play-btn {
+      box-shadow: 0 0 18px rgba(255, 90, 77, 0.55);
+      border-color: var(--mood-accent);
+    }
+    .cassette-player.mode-high .playlist-item.active {
+      color: var(--mood-accent);
+    }
+  </style>
 </head>
 <body>
 
@@ -71,11 +142,17 @@
     <div class="text-center fade-in">
       <p class="section-tag">✦ temani saya</p>
       <h2 class="section-title">Lagu <span class="italic">Pilihan</span></h2>
-      <p class="section-desc">Playlist lengkap yang menemani saya saat berkarya.</p>
+      <p class="section-desc">Pilih vibe-nya: santai buat nemenin fokus, atau high buat naikin semangat.</p>
     </div>
     <div class="row justify-content-center mt-4">
       <div class="col-lg-10 fade-in">
-        <div class="cassette-player" id="player">
+
+        <div class="mood-toggle" id="moodToggle">
+          <button class="mood-btn active" data-mode="santai" id="modeSantaiBtn">sanntuyyy</button>
+          <button class="mood-btn" data-mode="high" id="modeHighBtn">kompe</button>
+        </div>
+
+        <div class="cassette-player mode-santai" id="player">
           <div class="cassette-reels">
             <div class="reel" id="reelL"></div>
             <div class="reel" id="reelR"></div>
@@ -359,9 +436,12 @@
 <script src="js/config.js"></script>
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
-// === RETRO CASSETTE PLAYER + YOUTUBE PLAYLIST ===
+// === RETRO CASSETTE PLAYER + YOUTUBE PLAYLIST (SANTAI / HIGH) ===
 
-let tracks = [];
+let allTracks = { santai: [], high: [] };
+let currentMode = 'santai';
+let tracks = []; // selalu mengacu ke allTracks[currentMode]
+
 let currentIndex = 0;
 let ytPlayer = null;
 let isPlayerReady = false;
@@ -385,6 +465,9 @@ const volumeSlider = document.getElementById('volumeSlider');
 const playlistEl = document.getElementById('playlist');
 const reelL = document.getElementById('reelL');
 const reelR = document.getElementById('reelR');
+const playerEl = document.getElementById('player');
+const modeSantaiBtn = document.getElementById('modeSantaiBtn');
+const modeHighBtn = document.getElementById('modeHighBtn');
 
 function fmtTime(s) {
   s = Math.floor(s || 0);
@@ -406,12 +489,20 @@ function parseDuration(iso) {
   return hh + String(mm).padStart(2, '0') + ':' + String(s).padStart(2, '0');
 }
 
-async function fetchPlaylist() {
+// --- Fetch playlist untuk mode tertentu ('santai' / 'high') ---
+async function fetchPlaylist(playlistId, mode) {
+  if (!playlistId) {
+    if (mode === currentMode) {
+      playlistEl.innerHTML = '<div class="pl-note">Playlist ID belum diatur di config.js.</div>';
+      songArtist.textContent = 'playlist belum diatur';
+    }
+    return;
+  }
   try {
     let items = [];
     let nextPage = '';
     do {
-      const url = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&maxResults=50&playlistId=' + PLAYLIST_ID + '&key=' + YOUTUBE_API_KEY + (nextPage ? '&pageToken=' + nextPage : '');
+      const url = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&maxResults=50&playlistId=' + playlistId + '&key=' + YOUTUBE_API_KEY + (nextPage ? '&pageToken=' + nextPage : '');
       const res = await fetch(url);
       if (!res.ok) throw new Error('API error ' + res.status);
       const data = await res.json();
@@ -419,7 +510,7 @@ async function fetchPlaylist() {
       nextPage = data.nextPageToken || '';
     } while (nextPage);
 
-    tracks = items
+    const list = items
       .filter(it => it.snippet && it.snippet.title && it.snippet.title !== 'Private video' && it.snippet.title !== 'Deleted video')
       .map(it => ({
         id: it.contentDetails.videoId,
@@ -429,32 +520,42 @@ async function fetchPlaylist() {
         duration: ''
       }));
 
-    if (!tracks.length) {
-      playlistEl.innerHTML = '<div class="pl-note">Playlist kosong.</div>';
-      songArtist.textContent = 'playlist kosong';
-      return;
+    allTracks[mode] = list;
+
+    if (mode === currentMode) {
+      tracks = list;
+      if (!tracks.length) {
+        playlistEl.innerHTML = '<div class="pl-note">Playlist kosong.</div>';
+        songArtist.textContent = 'playlist kosong';
+      } else {
+        renderPlaylist();
+        songTitle.textContent = tracks[0].title;
+        songArtist.textContent = tracks[0].artist;
+      }
     }
-    renderPlaylist();
-    await fetchDurations();
+    await fetchDurations(mode);
   } catch (err) {
-    playlistEl.innerHTML = '<div class="pl-note">Gagal memuat playlist. Periksa API key.</div>';
+    if (mode === currentMode) {
+      playlistEl.innerHTML = '<div class="pl-note">Gagal memuat playlist. Periksa API key.</div>';
+    }
   }
 }
 
-async function fetchDurations() {
-  for (let i = 0; i < tracks.length; i += 50) {
-    const ids = tracks.slice(i, i + 50).map(t => t.id).join(',');
+async function fetchDurations(mode) {
+  const list = allTracks[mode];
+  for (let i = 0; i < list.length; i += 50) {
+    const ids = list.slice(i, i + 50).map(t => t.id).join(',');
     const url = 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=' + ids + '&key=' + YOUTUBE_API_KEY;
     try {
       const res = await fetch(url);
       const data = await res.json();
       (data.items || []).forEach(v => {
-        const t = tracks.find(x => x.id === v.id);
+        const t = list.find(x => x.id === v.id);
         if (t && v.contentDetails) t.duration = parseDuration(v.contentDetails.duration);
       });
     } catch (e) {}
   }
-  renderPlaylist();
+  if (mode === currentMode) renderPlaylist();
 }
 
 function renderPlaylist() {
@@ -491,6 +592,43 @@ function playTrack(i) {
   updateUI();
 }
 
+// --- Ganti mode (Santai <-> High) ---
+function switchMode(mode) {
+  if (mode === currentMode) return;
+  currentMode = mode;
+
+  modeSantaiBtn.classList.toggle('active', mode === 'santai');
+  modeHighBtn.classList.toggle('active', mode === 'high');
+  playerEl.classList.toggle('mode-santai', mode === 'santai');
+  playerEl.classList.toggle('mode-high', mode === 'high');
+
+  if (loadedVideo && ytPlayer) {
+    ytPlayer.stopVideo();
+  }
+  isPlaying = false;
+  loadedVideo = false;
+  currentIndex = 0;
+  tracks = allTracks[mode];
+
+  progressFill.style.width = '0%';
+  timeCurrent.textContent = '0:00';
+  timeTotal.textContent = '0:00';
+
+  if (!tracks.length) {
+    songTitle.textContent = '—';
+    songArtist.textContent = 'memuat playlist…';
+    playlistEl.innerHTML = '<div class="pl-note">Memuat playlist…</div>';
+  } else {
+    songTitle.textContent = tracks[0].title;
+    songArtist.textContent = tracks[0].artist;
+    renderPlaylist();
+  }
+  updateUI();
+}
+
+modeSantaiBtn.addEventListener('click', () => switchMode('santai'));
+modeHighBtn.addEventListener('click', () => switchMode('high'));
+
 function updateMediaSession() {
   if (!('mediaSession' in navigator)) return;
   const t = tracks[currentIndex];
@@ -499,7 +637,7 @@ function updateMediaSession() {
     navigator.mediaSession.metadata = new MediaMetadata({
       title: t.title,
       artist: t.artist,
-      album: 'Lagu Pilihan',
+      album: currentMode === 'high' ? 'Lagu Pilihan — High' : 'Lagu Pilihan — Santai',
       artwork: t.thumb ? [{ src: t.thumb, sizes: '480x360', type: 'image/jpeg' }] : []
     });
     navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
@@ -619,7 +757,9 @@ setInterval(() => {
 }, 500);
 
 setupMediaSession();
-fetchPlaylist();
+// Muat kedua playlist dari awal (santai jadi default aktif)
+fetchPlaylist(typeof PLAYLIST_ID_SANTAI !== 'undefined' ? PLAYLIST_ID_SANTAI : (typeof PLAYLIST_ID !== 'undefined' ? PLAYLIST_ID : ''), 'santai');
+fetchPlaylist(typeof PLAYLIST_ID_HIGH !== 'undefined' ? PLAYLIST_ID_HIGH : '', 'high');
 
 // overlay click — masuk + mulai putar
 overlay.addEventListener('click', () => {
