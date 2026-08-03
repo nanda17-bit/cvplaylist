@@ -1,0 +1,6 @@
+.env
+js/config.js
+
+
+# Local Netlify folder
+.netlify
